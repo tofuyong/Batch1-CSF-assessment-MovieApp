@@ -1,0 +1,42 @@
+<div *ngIf="isLoading">
+    <p>Loading...</p>
+  </div>
+
+<span>
+    <h3>
+        Search Results for '{{ movieName | titlecase }}'
+        <button type="button" [routerLink]="['/']">Back</button>
+    </h3>
+</span>
+
+<div *ngIf="!isLoading && results && results.length > 0; else noResult">
+    <table class="reviewTable" *ngFor="let review of results">
+        <tr>
+            <td><b>{{ review.title }} ({{ review.rating }})</b></td>
+        </tr>
+        <tr>
+            <img [src]="review.image ? review.image : 'assets/placeholder.jpg'">
+        </tr>
+        <tr>
+            <td>{{ review.headline }}</td>
+        </tr>
+        <tr>
+            <td>By: {{ review.byline }}</td>
+        </tr>
+        <tr>
+            <td>{{ review.summary }}</td>
+        </tr>
+        <tr>
+            <td>Comments count: {{ review.commentCount }}</td>
+        </tr>
+        <tr>
+            <button type="button" [routerLink]="['/comment', movieName, review.title]">Comment</button>
+        </tr>
+    </table>
+</div>
+
+
+<ng-template #noResult>
+    <p>Your search produced no result</p>
+</ng-template>
+
