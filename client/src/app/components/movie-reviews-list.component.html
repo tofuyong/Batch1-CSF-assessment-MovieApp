@@ -24,7 +24,7 @@
             <td>By: {{ review.byline }}</td>
         </tr>
         <tr>
-            <td>{{ review.summary }}</td>
+            <p [innerHTML]="review.summary"></p>
         </tr>
         <tr>
             <td>Comments count: {{ review.commentCount }}</td>

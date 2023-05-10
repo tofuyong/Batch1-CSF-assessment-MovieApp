@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchReviewComponent } from './components/search-review.component';
 import { MovieReviewsListComponent } from './components/movie-reviews-list.component';
+import { PostCommentComponent } from './components/post-comment.component';
 
 
 
@@ -14,7 +15,8 @@ import { MovieReviewsListComponent } from './components/movie-reviews-list.compo
   declarations: [
     AppComponent,
     SearchReviewComponent,
-    MovieReviewsListComponent
+    MovieReviewsListComponent,
+    PostCommentComponent
   ],
   imports: [
     BrowserModule,

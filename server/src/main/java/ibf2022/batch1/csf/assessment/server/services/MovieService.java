@@ -4,6 +4,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import ibf2022.batch1.csf.assessment.server.Constants;
+import ibf2022.batch1.csf.assessment.server.models.Comment;
 import ibf2022.batch1.csf.assessment.server.models.Review;
 import ibf2022.batch1.csf.assessment.server.repositories.MovieRepository;
 import jakarta.json.Json;
@@ -23,13 +26,16 @@ import jakarta.json.JsonReader;;
 
 @Service
 public class MovieService {
+
+	private static final Logger logger = LoggerFactory.getLogger(MovieService.class);
+
 	@Autowired
 	MovieRepository movieRepo;
 
 	// TODO: Task 4
 	// DO NOT CHANGE THE METHOD'S SIGNATURE
 	public List<Review> searchReviews(@RequestParam String query) {
-
+		logger.info("Request param string query svc: ", query);
 		// 1. Build the URL
 		String url = UriComponentsBuilder.fromUriString(Constants.API_URL)
 			.queryParam("query", query)
@@ -68,10 +74,15 @@ public class MovieService {
 			if (!reviewObject.isNull("multimedia")) {
 				review.setImage(reviewObject.getJsonObject("multimedia").getString("src"));
 			}
-			review.setCommentCount(movieRepo.countComments(query));
+			review.setCommentCount(movieRepo.countComments(reviewObject.getString("display_title")));
+			logger.info("Comment count svc: " + review.getCommentCount());
 			reviews.add(review);
 		}
 		return reviews;
 	}
+
+	public Comment insertComment(Comment comment) {
+		return movieRepo.insertComment(comment);
+	} 
 
 }
